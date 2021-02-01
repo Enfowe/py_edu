@@ -1,5 +1,5 @@
 import random
-
+import string
 
 print("H A N G M A N")
 words = ['python', 'java', 'kotlin', 'javascript']
@@ -11,9 +11,12 @@ used_letters = ""
 while True:
     print("\n" + hidden_word)
     player_letter = input("Input a letter:")
-    if player_letter in used_letters:
-        lives -= 1
-        print("No improvements")
+    if len(player_letter) != 1:
+        print("You should input a single letter")
+    elif player_letter in used_letters:
+        print("You already typed this letter")
+    elif player_letter not in string.ascii_lowercase:
+        print("It is not an ASCII lowercase letter")
     elif player_letter in correct_word:
         new = ""
         for i in range(len(correct_word)):
@@ -26,9 +29,9 @@ while True:
     else:
         lives -= 1
         print("No such letter in the word")
+        used_letters += player_letter
     if hidden_word == correct_word:
-        print(correct_word)
-        print("You guessed the word!")
+        print(f"You guessed the word {correct_word}!")
         print("You survived!")
         break
     if lives == 0:
