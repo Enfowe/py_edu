@@ -1,5 +1,7 @@
+import random
 print("H A N G M A N")
-correct_word = "python"
+words = ['python', 'java', 'kotlin', 'javascript']
+correct_word = random.choice(words)
 player_word = input("Guess the word:")
 if player_word == correct_word:
     print("You survived!")
