@@ -1,3 +1,7 @@
+# JetBrains Academy
+# Project: Zookeeper
+# Stage 4/4
+
 camel = r"""
 Switching on the camera in the camel habitat...
  ___.-''''-.
@@ -120,9 +124,14 @@ Switching on the camera in the rabbit habitat...
 It looks like we will soon have more rabbits!"""
 
 
+animals = [camel, lion, deer, goose, bat, rabbit]
+
 # write your code here
 animals = [camel, lion, deer, goose, bat, rabbit]
-animal = int(input("Please enter the number of the habitat you would like to view:"))
-print(animals[animal])
-print("""---
-You've reached the end of the program. To check another habitat, please restart the watcher.""")
+enter = input("Please enter the number of the habitat you would like to view:")
+while enter != "exit":
+    animal = int(enter)
+    print(animals[animal])
+    enter = input("Please enter the number of the habitat you would like to view:")
+else:
+    print("See you later!")
