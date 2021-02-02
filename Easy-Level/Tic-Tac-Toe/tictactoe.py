@@ -1,3 +1,6 @@
-print('''X O X
-O X O
-X X O''')
+cells = input("Enter cells: ")
+print("""---------
+| {} {} {} |
+| {} {} {} |
+| {} {} {} |
+---------""".format(*cells))
