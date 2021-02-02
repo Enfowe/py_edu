@@ -1,54 +1,43 @@
-cells = input("Enter cells: ")
-print("""---------
-| {} {} {} |
-| {} {} {} |
-| {} {} {} |
----------""".format(*cells))
-combs = ([0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6])
+start_pos = input("Enter cells: ")
+cells = [[start_pos[0], start_pos[1], start_pos[2]],
+         [start_pos[3], start_pos[4], start_pos[5]],
+         [start_pos[6], start_pos[7], start_pos[8]]]
+
+с = """[[0, 1, 2],
+         [3, 4, 5],
+         [6, 7, 8],
+         [0, 3, 6],
+         [1, 4, 7],
+         [2, 5, 8],
+         [0, 4, 8],
+         [2, 4, 6]]"""
         
+moves = {(1, 3): cells[0][0], (2, 3): cells[0][1], (3, 3): cells[0][2],
+         (1, 2): cells[1][0], (2, 2): cells[1][1], (3, 2): cells[1][2],
+         (1, 1): cells[2][0], (2, 1): cells[2][1], (3, 1): cells[2][2]}
 
-def states():
-    x_win = None
-    o_win = None
-    impossible = None
-    empty = None
-    draw = None
-    
-    if "_" in cells or " " in cells:
-        empty = True
-    else:
-        empty = False
 
-    for comb in combs:
-        f, s, t = comb
-        if cells[f] == cells[s] == cells[t]:
-            if cells[f] == "X":
-                x_win = True
-            if cells[f] == "O":
-                o_win = True
-    
-    impossible = o_win and x_win
-    draw = not o_win and not x_win and not empty
-    game_over = not empty
-    return (x_win, o_win, impossible, draw, game_over)
-    
-x_win, o_win, impossible, draw, game_over = states()        
+def print_field():
+    print(f"""---------
+| {moves[(1,3)]} {moves[(2,3)]} {moves[(3,3)]} |
+| {moves[(1,2)]} {moves[(2,2)]} {moves[(3,2)]} |
+| {moves[(1,1)]} {moves[(2,1)]} {moves[(3,1)]} |
+---------""")
 
-if abs(cells.count("X") - cells.count("O")) > 1 or impossible:
-    print("Impossible")
-elif draw:
-    print("Draw")
-elif x_win:
-    print("X wins")
-elif o_win:
-    print("O wins")
-else:
-    print("Game not finished")
-    
+print_field()
+input_ = True
+while input_:
+    try:
+        move = tuple([int(num) for num in input().split()])
+    except:
+        print("You should enter numbers!") 
+        continue
+    if move not in moves:
+        print("Coordinates should be from 1 to 3!")
+        continue
+    if moves[move] != "_":
+        print("This cell is occupied! Choose another one!")
+        continue
+    moves[move] = "X"
+    input_ = False
+print_field()
