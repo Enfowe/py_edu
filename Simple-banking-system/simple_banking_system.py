@@ -18,8 +18,17 @@ class Bank:
         else:
             return
 
+    def luhn_checksum(self, card_number):
+        numbers = list(map(int, list(card_number)))
+        for i in range(len(numbers)):
+            if i % 2 == 0:
+                numbers[i] *= 2
+        return (60 - sum(list(map(lambda x: x - 9 if x > 9 else x, numbers)))) % 10
+
     def create_an_account(self):
-        card_number = "400000" + str(random.randint(1, 9999999999)).rjust(10, "0")
+        card_number = "400000" + str(random.randint(1, 999999999)).rjust(9, "0")
+        card_number += str(self.luhn_checksum(card_number))
+
         if card_number not in self.database:
             card_pin = str(random.randint(1, 9999)).rjust(4, "0")
             self.database[card_number] = card_pin
