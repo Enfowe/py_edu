@@ -1,4 +1,11 @@
 import random
+import sqlite3
+
+conn = sqlite3.connect('card.s3db')
+cur = conn.cursor()
+if open("card.s3db", "r").readlines() == []:
+    cur.execute('CREATE TABLE card (id INTEGER, number TEXT, pin TEXT, balance INTEGER DEFAULT 0);')
+    conn.commit()
 
 
 class Bank:
@@ -26,13 +33,16 @@ class Bank:
         return (60 - sum(list(map(lambda x: x - 9 if x > 9 else x, numbers)))) % 10
 
     def create_an_account(self):
-        card_number = "400000" + str(random.randint(1, 999999999)).rjust(9, "0")
+        id_num = str(random.randint(1, 999999999)).rjust(9, "0")
+        card_number = "400000" + id_num
         card_number += str(self.luhn_checksum(card_number))
 
         if card_number not in self.database:
             card_pin = str(random.randint(1, 9999)).rjust(4, "0")
             self.database[card_number] = card_pin
             print(f"Your card has been created\nYour card number:\n{card_number}\nYour card PIN:\n{card_pin}")
+            cur.execute(f'INSERT INTO card (id, number, pin) VALUES ({id_num}, "{card_number}", "{card_pin}")')
+            conn.commit()
             return self.start_page()
         else:
             return self.create_an_account()
